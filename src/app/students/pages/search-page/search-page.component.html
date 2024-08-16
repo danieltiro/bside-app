@@ -1,0 +1,33 @@
+<div class="flex flex-column p-2">
+
+  <h3>Search</h3>
+
+  <mat-form-field>
+    <mat-label>Please, write a word</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="searchInput"
+      (input)="search()"
+      [matAutocomplete]="auto"
+    />
+
+    <mat-autocomplete autoActiveFirstOption
+      #auto="matAutocomplete"
+      (optionSelected)="onSelectedOption( $event )"
+      >
+      <mat-option *ngFor="let student of students" [value]="student">
+        {{ student.name + ' ' + student.lastname + ' [' + student.curp + ']'}}
+      </mat-option>
+
+      <mat-option
+        *ngIf="students.length === 0 && searchInput.value && searchInput.value.length > 0"
+        value="">
+        Nothing related to: {{ searchInput.value }}
+      </mat-option>
+    </mat-autocomplete>
+
+  </mat-form-field>
+  <pre [innerHTML]="selectedStudent | pretty"></pre>
+
+</div>

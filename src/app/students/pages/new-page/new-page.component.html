@@ -1,0 +1,79 @@
+<h1>
+  {{ currentStudent.id ? 'Edit' : 'Add' }}
+  <small *ngIf="currentStudent.id">{{ currentStudent.curp }}</small>
+</h1>
+
+<mat-divider class="mb-2"></mat-divider>
+
+<div class="grid">
+
+  <div class="col-12 sm:col-6">
+    <mat-card>
+      <mat-card-content>
+
+        <form class="grid" [formGroup]="adminForm" (ngSubmit)="onSubmit()">
+
+          <mat-form-field class="col-12 sm:col-6">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="name" />
+            <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['name'])">{{ error }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-12 sm:col-6">
+            <mat-label>Lastname</mat-label>
+            <input matInput type="text" formControlName="lastname" />
+            <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['curp'])">{{ error }}</mat-error>
+          </mat-form-field>
+          
+          <mat-form-field class="col-12">
+            <mat-label>CURP</mat-label>
+            <input matInput type="text" formControlName="curp" />
+            <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['curp'])">{{ error }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+            <mat-label>Birthday</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birthday"/>
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+            <mat-label>Alternative Image</mat-label>
+            <input matInput type="text" formControlName="alt_img" />
+          </mat-form-field>
+          
+        </form>
+
+        <div class="flex justify-content-end">
+          <button style="margin-right:5px" class="md-padding" *ngIf="currentStudent.id" (click)="onDeleteStudent()" mat-flat-button color="warn" >
+            <mat-icon fontIcon="delete"></mat-icon>
+            Borrar
+          </button>
+          <button style="margin-right:5px" mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!adminForm.valid" >
+            <mat-icon fontIcon="save"></mat-icon>
+            Save
+          </button>
+          <a mat-flat-button color="primary" href="students/list" >
+            <mat-icon fontIcon="keyboard_backspace"></mat-icon>
+            Return
+          </a>
+        </div>
+        <div class="alert alert-danger" *ngIf="message">
+          {{ message | json }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12 sm:col-6">
+
+    <mat-card>
+      <img [src]="currentStudent | studentImage" mat-card-image>
+    </mat-card>
+
+  </div>
+</div>
+
+
