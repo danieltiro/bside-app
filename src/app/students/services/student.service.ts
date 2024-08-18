@@ -30,7 +30,7 @@ export class StudentService {
   }
 
   getSuggestions( query: string ): Observable<Page> {
-    return this.http.get<Page>(`${ this.backendUrl }/student/name?name=`);
+    return this.http.get<Page>(`${ this.backendUrl }/student/name?name=` + query);
   }
 
   addStudent( student: Student ): Observable<Student> {
@@ -48,5 +48,9 @@ export class StudentService {
         map( resp => true ),
         catchError( err => of(false) ),
       );
+  }
+
+  getValidaByCurp( curp: string ): Observable<Student|undefined> {
+    return this.http.get<Student>(`${ this.backendUrl }/student/valida/curp/${ curp }`);
   }
 }

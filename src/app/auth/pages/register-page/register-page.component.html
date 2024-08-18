@@ -1,32 +1,42 @@
 
-<div class="flex flex-column">
+<div class="login-container">
+  <div class="login-left">
+  
+    <h2>Sing Up</h2>
+    <form [formGroup]="adminForm" #loginForm="ngForm" (submit)="onRegister()">
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input type="text" matInput placeholder="Username" formControlName="username">
+        <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['username'])">{{ error }}</mat-error>
+      </mat-form-field>
 
-  <span class="text-lg mb-4">New User</span>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input type="text" matInput placeholder="Name" formControlName="name">
+        <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['name'])">{{ error }}</mat-error>
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Username</mat-label>
-    <input type="text" matInput placeholder="Username">
-  </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input type="password" matInput placeholder="Password" formControlName="password">
+        <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['password'])">{{ error }}</mat-error>
+      </mat-form-field>
+      <div class="flex justify-content-end mt-5">
+        <button type="submit" mat-flat-button color="primary">
+          Create
+        </button>
+      </div>
+    </form>
 
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input type="text" matInput placeholder="Name">
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Password</mat-label>
-    <input type="password" matInput placeholder="Password">
-  </mat-form-field>
-
-  <button mat-button mat-flat-button color="primary" (click)="register()">
-    <mat-icon>save</mat-icon>
-    Create new account
-  </button>
-
-
-  <div class="flex justify-content-end mt-5">
-    <a routerLink="/auth/login">¿You already have an acoount?</a>
+<br/>
+  <p>Do you have an account? <a routerLink="/auth/login">Log In</a></p>
+</div>
+<div class="login-right">
+  <div class="login-info">
+    <h3>Why should I login?</h3>
+    <p>By logging in, you can access your personal dashboard, where you can manage your account, view your profile, and much more.</p>
+    <img src="https://gdm-catalog-fmapi-prod.imgix.net/ProductScreenshot/4baaf885-82cd-42e6-9e9e-6141a1869524.png" alt="Dashboard example">
   </div>
-
+</div>
 </div>
 

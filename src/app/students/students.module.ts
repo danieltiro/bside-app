@@ -17,6 +17,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgFileUploadModule } from 'ng-new-files-uploader';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MaterialModule,
     MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgFileUploadModule
   ]
 })
 export class StudentsModule { }

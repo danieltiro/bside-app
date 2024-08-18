@@ -10,6 +10,9 @@ import { Student } from '../../interfaces/student.interface';
 import { StudentService } from '../../services/student.service';
 
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { formatDate } from '@angular/common';
+import { environments } from '../../../../environments/environments';
+
 
 export interface FormGroupControls {
   [key: string]: AbstractControl;
@@ -23,6 +26,7 @@ export interface FormGroupControls {
 export class NewPageComponent implements OnInit {
 
   public message:String = "";
+  public urlUpload:string = environments.backendUrl + 'upload';
   public adminForm = this.formBuilder.group({
     id: [''],
     curp: ['', [Validators.required]],
@@ -31,28 +35,9 @@ export class NewPageComponent implements OnInit {
     created: [new Date(), Validators.required],
     modified: [null],
     deleted: [null],
-    birthday: [null, Validators.required],
+    birthday: [new Date(), Validators.required],
     active: [true, Validators.required]
   });
-
-  /*
-  public studentForm = new FormGroup({
-    id:        new FormControl<string>('', ),
-    curp:      new FormControl<string>(''),
-    name:      new FormControl<string>(''),
-    lastname:  new FormControl<string>(''),
-    created:   new FormControl<Date>(new Date),
-    modified:  new FormControl(),
-    deleted:   new FormControl(),
-    birthday:   new FormControl(),
-    active:    new FormControl<boolean>(true)
-  });
-  */
-
-  public publishers = [
-    { id: 'DC Comics', desc: 'DC - Comics' },
-    { id: 'Marvel Comics', desc: 'Marvel - Comics' },
-  ];
 
   constructor(
     private studentService: StudentService,
@@ -135,7 +120,6 @@ export class NewPageComponent implements OnInit {
     const controlErrors: ValidationErrors = formControl.errors;
     if (controlErrors != null) { 
       Object.keys(controlErrors).forEach((keyError:any) => {
-        console.log('Key control: ' + keyError);
         switch (keyError) {
           case 'required':
             errors.push('Value is required');
@@ -158,5 +142,19 @@ export class NewPageComponent implements OnInit {
     return errors;
   }
 
+  onValidaCurp(){
+    this.studentService.getValidaByCurp(this.adminForm.controls.curp.value!).subscribe((response: any) => {
+      console.log('valida curp response' , response);
+      this.adminForm.patchValue({
+        name: response.data.nombres,
+        lastname : response.data.apellidoPaterno + ' ' + response.data.apellidoMaterno,
+      });
+      this.adminForm.controls.birthday.setValue(new Date(response.data.fechaNacimiento.substr(3,2)+'-'+response.data.fechaNacimiento.substr(0,2)+'-'+response.data.fechaNacimiento.substr(6,4)));
+      this.showSnackbar('CURP was validated successfully');
+    }, error => {
+      console.log('valida curp error' , error);
+      this.message = error.error.message;
+    })
+  }
   
 }

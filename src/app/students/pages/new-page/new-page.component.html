@@ -13,6 +13,12 @@
 
         <form class="grid" [formGroup]="adminForm" (ngSubmit)="onSubmit()">
 
+          <mat-form-field class="col-12">
+            <mat-label>CURP</mat-label>
+            <input matInput type="text" formControlName="curp" maxlength="18" (blur)="onValidaCurp()"/>
+            <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['curp'])">{{ error }}</mat-error>
+          </mat-form-field>
+
           <mat-form-field class="col-12 sm:col-6">
             <mat-label>Name</mat-label>
             <input matInput type="text" formControlName="name" />
@@ -22,13 +28,7 @@
           <mat-form-field class="col-12 sm:col-6">
             <mat-label>Lastname</mat-label>
             <input matInput type="text" formControlName="lastname" />
-            <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['curp'])">{{ error }}</mat-error>
-          </mat-form-field>
-          
-          <mat-form-field class="col-12">
-            <mat-label>CURP</mat-label>
-            <input matInput type="text" formControlName="curp" />
-            <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['curp'])">{{ error }}</mat-error>
+            <mat-error *ngFor="let error of getArrayErrors(adminForm.controls['lastname'])">{{ error }}</mat-error>
           </mat-form-field>
 
           <mat-form-field class="col-12">
@@ -45,6 +45,8 @@
           </mat-form-field>
           
         </form>
+
+        <ng-new-files-uploader [multiple]="false" [uploadUrl]="urlUpload"></ng-new-files-uploader>
 
         <div class="flex justify-content-end">
           <button style="margin-right:5px" class="md-padding" *ngIf="currentStudent.id" (click)="onDeleteStudent()" mat-flat-button color="warn" >

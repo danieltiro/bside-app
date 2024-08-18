@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+import { NgFileUploadModule } from 'ng-new-files-uploader';
 
 
 @NgModule({
@@ -17,9 +19,10 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
+    FormsModule,
     AppRoutingModule,
     SharedModule,
+    NgFileUploadModule
   ],
   providers: [{provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
   bootstrap: [AppComponent]
