@@ -1,0 +1,7 @@
+.img-aspect {
+  display: block;
+  max-height:200px;
+  max-width:50vh;
+  width: auto;
+  height: auto;
+}

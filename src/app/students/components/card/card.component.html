@@ -5,7 +5,7 @@
     <mat-card-subtitle>{{ student.curp }}</mat-card-subtitle>
   </mat-card-header>
   
-  <img mat-card-image [src]="student | studentImage">
+  <img class="img-aspect" mat-card-image [style]="'margin: 10px;'" [src]="student | studentImage">
 
   <mat-card-content class="mt-2">
     <p>

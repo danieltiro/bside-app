@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, switchMap, tap } from 'rxjs';
@@ -12,6 +12,7 @@ import { StudentService } from '../../services/student.service';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { formatDate } from '@angular/common';
 import { environments } from '../../../../environments/environments';
+import { NgFileUploadComponent } from 'ng-new-files-uploader';
 
 
 export interface FormGroupControls {
@@ -21,22 +22,27 @@ export interface FormGroupControls {
 @Component({
   selector: 'app-new-page',
   templateUrl: './new-page.component.html',
-  styles: []
+  styleUrls: ['./new-page.component.css']
 })
-export class NewPageComponent implements OnInit {
+export class NewPageComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('fileUpload') fileUpload!: NgFileUploadComponent;
+
+  public parentObj:any;
   public message:String = "";
-  public urlUpload:string = environments.backendUrl + 'upload';
+  public urlUpload:string = environments.backendUrl + '/student/attachments';
+  fileSelected:any;
   public adminForm = this.formBuilder.group({
     id: [''],
-    curp: ['', [Validators.required]],
-    name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-    lastname: ['', Validators.required],
+    curp: ['TIBD841213HMCRRN05', [Validators.required]],
+    name: ['DANIEL', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+    lastname: ['TIRO', Validators.required],
     created: [new Date(), Validators.required],
     modified: [null],
     deleted: [null],
     birthday: [new Date(), Validators.required],
-    active: [true, Validators.required]
+    active: [true, Validators.required],
+    avatar: ['']
   });
 
   constructor(
@@ -48,6 +54,16 @@ export class NewPageComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
 
+  ngAfterViewInit(): void {
+    this.fileUpload.allowedFileTypes = ['.jpeg', '.png'];
+    this.fileUpload.fileTypePattern = /(\.jpeg|\.JPEG|\.png|\.PNG)$/i
+    //VALUE IN MB
+    this.fileUpload.maximumFileSize = 10;
+    //this.fileUpload.nativefileupload.nativeElement.parentElement.getElementsByTagName("h2")[0].setHTMLUnsafe('Avatar Image');
+    this.fileUpload.nativefileupload.nativeElement.parentElement.getElementsByTagName("h2")[0].parentElement.style="display:none"
+    this.fileUpload.resetUploadState();
+  }
+    
   get currentStudent(): Student {
     const student = this.adminForm.value as Student;
     return student;
@@ -55,7 +71,6 @@ export class NewPageComponent implements OnInit {
 
   ngOnInit(): void {
     if ( !this.router.url.includes('edit') ) return;
-    
     this.activatedRoute.params
       .pipe(
         switchMap( ({ curp }) => this.studentService.getStudentByCurp( curp ) ),
@@ -72,8 +87,10 @@ export class NewPageComponent implements OnInit {
     console.log('onSubmit');
     
     if ( this.adminForm.invalid ) return;
+    console.log('parentObj: ' + this.parentObj);
     this.message = "";
     if ( this.currentStudent.id ) {
+      /*
       this.studentService.updateStudent( this.currentStudent )
         .subscribe( student => {
           this.showSnackbar(`${ student.curp } updated!`);
@@ -81,15 +98,25 @@ export class NewPageComponent implements OnInit {
           this.message = error.error
         });
       return;
-    }
-
-    this.studentService.addStudent( this.currentStudent )
-      .subscribe( student => {
-        this.router.navigate(['/students']);
-        this.showSnackbar(`${ student.curp } created!`);
+      */
+      this.studentService.updateStudentWithAttachments( this.currentStudent, this.fileUpload.files, 'avatar', 'test' )
+      .subscribe( (result:any) => {
+        this.adminForm.setValue(result.student);
+        this.showSnackbar(`${ result.student.curp } updated!`);
       }, error => {
         this.message = error.error
       });
+      return;
+    }
+    
+    //this.studentService.addStudentWithAttachments( this.currentStudent, this.fileUpload.fileinput.nativeElement.files, 'avatar', 'test' )
+    this.studentService.addStudentWithAttachments( this.currentStudent, this.fileUpload.files, 'avatar', 'test' )
+    .subscribe( (result:any) => {
+      this.router.navigate(['/students']);
+      this.showSnackbar(`${ result.student.curp } created!`);
+    }, error => {
+      this.message = error.error
+    });
   }
 
   onDeleteStudent() {

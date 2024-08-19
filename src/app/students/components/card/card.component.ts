@@ -4,8 +4,7 @@ import { Student } from '../../interfaces/student.interface';
 @Component({
   selector: 'student-card',
   templateUrl: './card.component.html',
-  styles: [
-  ]
+  styleUrls: ['./card.component.css']
 })
 export class CardComponent implements OnInit {
 

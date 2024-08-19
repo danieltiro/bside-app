@@ -39,7 +39,8 @@
 
 .login-right {
   background-color: white;
-  background-image: url('https://www.coopercarry.com/wp-content/uploads/2018/06/high-school-design-architecture-innovation-3-scaled.jpg');
+  background-size: cover;
+  background-image: url("/assets/school.jpg");
 }
 
 .login-info {

@@ -10,9 +10,5 @@ export interface Student {
   modified: null;
   deleted: null;
   active: boolean;
-}
-
-export enum Institute {
-  Mexico = "Mexico City",
-  Canada = "Vancouver Canada",
+  avatar: string;
 }

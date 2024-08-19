@@ -8,8 +8,7 @@ import { Student } from '../../interfaces/student.interface';
 @Component({
   selector: 'app-student-page',
   templateUrl: './student-page.component.html',
-  styles: [
-  ]
+  styleUrls: ['./student-page.component.css']
 })
 export class StudentPageComponent implements OnInit {
 

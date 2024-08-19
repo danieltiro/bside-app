@@ -18,7 +18,7 @@
     </mat-card-header>
 
 
-    <img [src]="student | studentImage" mat-card-image  /> 
+    <img class="img-aspect" [src]="student | studentImage" mat-card-image  /> 
 
   </mat-card>
 
@@ -37,6 +37,7 @@
         <mat-list-item>Active: {{ student.active }}</mat-list-item>
         <mat-list-item>Birhday: {{ student.birthday | date: 'dd/MM/yyyy' }}</mat-list-item>
         <mat-list-item>Created: {{ student.created | date: 'dd/MM/yyyy' }}</mat-list-item>
+        <mat-list-item>Avatar: {{ student.avatar }}</mat-list-item>
         <mat-list-item>Id: {{ student.id }}</mat-list-item>
       </mat-list>
 

@@ -34,7 +34,39 @@ export class StudentService {
   }
 
   addStudent( student: Student ): Observable<Student> {
-    return this.http.post<Student>(`${ this.backendUrl }/student`, student );
+    return this.http.post<Student>(`${ this.backendUrl }/student/attachments`, student );
+  }
+
+  addStudentWithAttachments( student: Student, files:any, key:String, description: String ): Observable<Student> {
+    let formData = new FormData();
+    let entityMetaBlob = new Blob([JSON.stringify(student)], {type: 'application/json'});
+    formData.append('student', entityMetaBlob);
+    formData.append('key', key.toString());
+    formData.append('description', description.toString());
+    
+    files.forEach((file:any, i:any) => {
+      let fileBlob = new Blob([file.file], {type: 'application/octet-stream'});
+      formData.append('files', fileBlob, file.file.name);
+    });
+    //let fileBlob = new Blob([files], {type: 'application/octet-stream'});
+    //formData.append('files', fileBlob, files.name);
+    return this.http.post<Student>(`${ this.backendUrl }/student/attachments`, formData );
+  }
+
+  updateStudentWithAttachments( student: Student, files:any, key:String, description: String ): Observable<Student> {
+    let formData = new FormData();
+    let entityMetaBlob = new Blob([JSON.stringify(student)], {type: 'application/json'});
+    formData.append('student', entityMetaBlob);
+    formData.append('key', key.toString());
+    formData.append('description', description.toString());
+    
+    files.forEach((file:any, i:any) => {
+      let fileBlob = new Blob([file.file], {type: 'application/octet-stream'});
+      formData.append('files', fileBlob, file.file.name);
+    });
+    //let fileBlob = new Blob([files], {type: 'application/octet-stream'});
+    //formData.append('files', fileBlob, files.name);
+    return this.http.put<Student>(`${ this.backendUrl }/student/attachments`, formData );
   }
 
   updateStudent( student: Student ): Observable<Student> {

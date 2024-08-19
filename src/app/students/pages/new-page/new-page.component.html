@@ -38,22 +38,18 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-
-          <mat-form-field class="col-12">
-            <mat-label>Alternative Image</mat-label>
-            <input matInput type="text" formControlName="alt_img" />
-          </mat-form-field>
           
         </form>
-
-        <ng-new-files-uploader [multiple]="false" [uploadUrl]="urlUpload"></ng-new-files-uploader>
+        <h2>Avatar</h2>
+        <span>Image (jpeg, png)</span>
+        <ng-new-files-uploader [multiple]="false" #fileUpload></ng-new-files-uploader>
 
         <div class="flex justify-content-end">
           <button style="margin-right:5px" class="md-padding" *ngIf="currentStudent.id" (click)="onDeleteStudent()" mat-flat-button color="warn" >
             <mat-icon fontIcon="delete"></mat-icon>
             Borrar
           </button>
-          <button style="margin-right:5px" mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!adminForm.valid" >
+          <button style="margin-right:5px" mat-flat-button color="primary" (click)="onSubmit()" [disabled]="(!adminForm.valid || !fileUpload.canUpload())" >
             <mat-icon fontIcon="save"></mat-icon>
             Save
           </button>
@@ -71,9 +67,9 @@
 
   <div class="col-12 sm:col-6">
 
-    <mat-card>
-      <img [src]="currentStudent | studentImage" mat-card-image>
-    </mat-card>
+    
+      <img class="img-aspect" [src]="currentStudent | studentImage" mat-card-image>
+    
 
   </div>
 </div>
