@@ -40,7 +40,7 @@
 .login-right {
   background-color: white;
   background-size: cover;
-  background-image: url("/assets/school.jpg");
+  background-image: url("../../../../assets/school.jpg");
 }
 
 .login-info {

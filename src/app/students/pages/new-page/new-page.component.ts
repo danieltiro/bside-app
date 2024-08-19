@@ -34,9 +34,9 @@ export class NewPageComponent implements OnInit, AfterViewInit {
   fileSelected:any;
   public adminForm = this.formBuilder.group({
     id: [''],
-    curp: ['TIBD841213HMCRRN05', [Validators.required]],
-    name: ['DANIEL', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-    lastname: ['TIRO', Validators.required],
+    curp: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+    lastname: ['', Validators.required],
     created: [new Date(), Validators.required],
     modified: [null],
     deleted: [null],

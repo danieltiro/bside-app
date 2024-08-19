@@ -11,8 +11,8 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 # Compilar app angular
 ng build --configuration "production" --base-href /app/
 # Compilar imagen en docker
-docker build -t bside-app:16 -f ./Dockerfile .
+docker build -t bside-app -f ./Dockerfile .
 # Tagear imagen en AWS
-docker tag bside-app:15 381491984567.dkr.ecr.us-east-1.amazonaws.com/bside-app:16
+docker tag bside-app 381491984567.dkr.ecr.us-east-1.amazonaws.com/bside-app:21
 # Push imagen en AWS
-docker push 381491984567.dkr.ecr.us-east-1.amazonaws.com/bside-app:16
+docker push 381491984567.dkr.ecr.us-east-1.amazonaws.com/bside-app:21
